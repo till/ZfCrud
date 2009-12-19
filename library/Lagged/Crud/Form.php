@@ -64,6 +64,15 @@ abstract class Lagged_Crud_Form extends Zend_Db_Table_Abstract
         return $this->form;
     }
 
+    /**
+     * @return mixed
+     * @see    parent::$_primary
+     */
+    public function getPrimaryKey()
+    {
+        return $this->_primary;
+    }
+
     public function setBaseName($baseName)
     {
         $this->baseName = $baseName;
