@@ -1,5 +1,5 @@
 <?php
-class Lagged_Crud_Form extends Zend_Db_Table_Abstract
+abstract class Lagged_Crud_Form extends Zend_Db_Table_Abstract
 {
     protected $baseName = 'crud_';
 
