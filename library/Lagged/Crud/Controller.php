@@ -9,13 +9,31 @@ abstract class Lagged_Crud_Controller extends Zend_Controller_Action
     {
         // when you extend, you need to put your model here
         // $this->model = new Lagged_Crud_Form;
+        // parent::init()
 
         $this->primaryKey = $this->model->getPrimaryKey();
     }
 
     public function createAction()
     {
-        
+        if ($this->_request->isPost() !== true) {
+            $form = $this->model->getForm();
+            $this->view->assign('form', $form);
+            return;
+        }
+
+        $form = $this->model->getForm();
+        $form->populate($this->_request->getPost());
+        if (!$form->isValid()) {
+            $this->view->assign('form', $form);
+            return;
+        }
+
+        $this->model->insert(
+            $this->_request->getPost(),
+        );
+
+        // redirect to /read
     }
 
     public function deleteAction()
@@ -55,6 +73,7 @@ abstract class Lagged_Crud_Controller extends Zend_Controller_Action
             $this->_request->getPost(),
             "{$this->primarykey} = ?", $id
         );
-        // redirect to read
+
+        // redirect to /read
     }
 }
