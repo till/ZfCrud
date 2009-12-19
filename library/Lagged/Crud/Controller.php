@@ -1,5 +1,5 @@
 <?php
-class Lagged_Crud_Controller extends Zend_Controller_Action
+abstract class Lagged_Crud_Controller extends Zend_Controller_Action
 {
     protected $model;
 
