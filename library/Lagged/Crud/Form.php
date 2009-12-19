@@ -50,13 +50,15 @@ class Lagged_Crud_Form extends Zend_Db_Table_Abstract
     {
         $this->form = new Zend_Form;
         $this->form->setAttrib('id', $this->baseName . $this->_name);
-        $this->form->setAction($this->formAction);
         $this->form->setMethod('post');
 
         $this->addFields();
 
         if ($record !== null) {
             $this->populate($record);
+            $this->form->setAction($this->formAction . '/update');
+        } else {
+            $this->form->setAction($this->formAction . '/create');
         }
 
         return $this->form;
@@ -75,7 +77,7 @@ class Lagged_Crud_Form extends Zend_Db_Table_Abstract
 
         $action = '/';
 
-        if (strstr($controllerName, '_') {
+        if (strstr($controllerName, '_')) {
             list($module, $controller) = explode('_', $controllerName);
             $action .= $module . '/';
         } else {
