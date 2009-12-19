@@ -14,6 +14,11 @@ class Lagged_Crud_Form extends Zend_Db_Table_Abstract
     protected $form;
 
     /**
+     * @var string $formAction
+     */
+    protected $formAction = '/crud';
+
+    /**
      * @param mixed $var
      *
      * @return $this
@@ -31,6 +36,11 @@ class Lagged_Crud_Form extends Zend_Db_Table_Abstract
         throw UnexpectedValueException("Waddap.");
     }
 
+    public function getBaseName()
+    {
+        return $this->baseName;
+    }
+
     /**
      * Create a form, automatically from a table.
      *
@@ -40,7 +50,7 @@ class Lagged_Crud_Form extends Zend_Db_Table_Abstract
     {
         $this->form = new Zend_Form;
         $this->form->setAttrib('id', $this->baseName . $this->_name);
-        $this->form->setAction('/foobar');
+        $this->form->setAction($this->formAction);
         $this->form->setMethod('post');
 
         $this->addFields();
@@ -50,6 +60,34 @@ class Lagged_Crud_Form extends Zend_Db_Table_Abstract
         }
 
         return $this->form;
+    }
+
+    public function setBaseName($baseName)
+    {
+        $this->baseName = $baseName;
+        return $this;
+    }
+
+    public function setControllerName($controllerName)
+    {
+        throw new Exception("Not implemented.");
+        // parse Module_FooController
+
+        $action = '/';
+
+        if (strstr($controllerName, '_') {
+            list($module, $controller) = explode('_', $controllerName);
+            $action .= $module . '/';
+        } else {
+            $controller = $controllerName;
+        }
+        $controller = str_replace('Controller', '', $controller);
+
+        $action .= $controller;
+
+        $this->formAction = $action;
+
+        return $this;
     }
 
     /**
