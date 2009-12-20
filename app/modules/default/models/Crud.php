@@ -1,5 +1,5 @@
 <?php
-class Model_Crud
+class Model_Crud extends Lagged_Crud_Form
 {
     protected $_schema  = 'mysql';
     protected $_name    = 'users';
