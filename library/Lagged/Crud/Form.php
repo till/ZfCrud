@@ -81,9 +81,6 @@ abstract class Lagged_Crud_Form extends Zend_Db_Table_Abstract
 
     public function setControllerName($controllerName)
     {
-        throw new Exception("Not implemented.");
-        // parse Module_FooController
-
         $action = '/';
 
         if (strstr($controllerName, '_')) {
