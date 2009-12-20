@@ -65,6 +65,19 @@ abstract class Lagged_Crud_Controller extends Zend_Controller_Action
 
     public function deleteAction()
     {
+        $id = $this->getId();
+        if ($this->_request->isPost() !== true) {
+            $record = $this->fetchRecord($id);
+            $form   = $this->model->getDeleteForm();
+
+            $this->view->assign('record', $record);
+            $this->view->assign('form', $form);
+            return;
+        }
+
+        $this->model->delete("{$this->primaryKey} = ?", $id);
+
+        $this->redirector->gotoSimple('read');
     }
 
     public function indexAction()
@@ -83,8 +96,8 @@ abstract class Lagged_Crud_Controller extends Zend_Controller_Action
             $records = $this->model->fetchAll();
             $this->view->assign('records', $records->toArray());
         } else {
-            $record = $this->model->fetchRow("{$this->primaryKey} = ?", $id);
-            $this->view->assign('record', $record->toArray());
+            $record = $this->fetchRecord($id);
+            $this->view->assign('record', $record);
         }
     }
 
@@ -118,10 +131,20 @@ abstract class Lagged_Crud_Controller extends Zend_Controller_Action
     }
 
     /**
+     * @return array
+     */
+    protected function fetchRecord($id)
+    {
+        $record = $this->model->fetchRow("{$this->primaryKey} = ?", $id);
+        return $record->toArray();
+    }
+
+    /**
      * @return mixed
      */
     protected function getId()
     {
-        return $this->_request->getParam('id', null);
+        $id = $this->_request->getParam('id', null);
+        return $id;
     }
 }
