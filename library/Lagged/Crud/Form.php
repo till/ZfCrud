@@ -41,9 +41,20 @@ abstract class Lagged_Crud_Form extends Zend_Db_Table_Abstract
         throw UnexpectedValueException("Waddap.");
     }
 
+    /**
+     * @return string
+     */
     public function getBaseName()
     {
         return $this->baseName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getControllerName()
+    {
+        return $this->controllerName;
     }
 
     /**
