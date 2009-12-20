@@ -1,0 +1,21 @@
+<h1>Read</h1>
+
+<?php if (isset($this->records)): ?>
+
+<table>
+    <?php foreach ($this->records as $record): ?>
+    <tr>
+        <?php foreach ($record as $col => $value): ?>
+            <td><?php echo $value; ?></td>
+        <?php endforeach; ?>
+    </tr>
+    <?php endforeach; ?>
+</table>
+
+<?php elseif (isset($this->record)): ?>
+
+    <?php var_dump($this->record); ?>
+
+<?php else:
+    Ugh, something went wrong.
+<?php endif; ?>
