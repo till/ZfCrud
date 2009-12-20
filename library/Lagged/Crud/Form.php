@@ -4,6 +4,11 @@ abstract class Lagged_Crud_Form extends Zend_Db_Table_Abstract
     protected $baseName = 'crud_';
 
     /**
+     * @var string $controllerName
+     */
+    protected $controllerName = 'CrudController';
+
+    /**
      * @var Zend_Form_Decorator $decorator
      */
     protected $decorator;
@@ -79,21 +84,17 @@ abstract class Lagged_Crud_Form extends Zend_Db_Table_Abstract
         return $this;
     }
 
+    /**
+     * @param string $controllerName
+     *
+     * @return $this
+     * @see    self::createFormAction()
+     */
     public function setControllerName($controllerName)
     {
-        $action = '/';
+        $this->controllerName = $controllerName;
 
-        if (strstr($controllerName, '_')) {
-            list($module, $controller) = explode('_', $controllerName);
-            $action .= $module . '/';
-        } else {
-            $controller = $controllerName;
-        }
-        $controller = str_replace('Controller', '', $controller);
-
-        $action .= $controller;
-
-        $this->formAction = $action;
+        $this->createFormAction($this->controllerName);
 
         return $this;
     }
@@ -121,6 +122,32 @@ abstract class Lagged_Crud_Form extends Zend_Db_Table_Abstract
             $this->form->addElement($element);
         }
         $this->form->addElement('submit', 'save', array('label' => 'Save to be safe!'));
+    }
+
+    /**
+     * Create the form action from the controllername.
+     *
+     * @param string $controllerName The name of the controller.
+     *
+     * @return void
+     */
+    protected function createFormAction($controllerName)
+    {
+        $action = '/';
+
+        if (strstr($controllerName, '_')) {
+            list($module, $controller) = explode('_', $controllerName);
+            $action .= $module . '/';
+        } else {
+            $controller = $controllerName;
+        }
+        $controller = str_replace('Controller', '', $controller);
+
+        $action .= $controller;
+
+        $this->formAction = $action;
+
+        return;
     }
 
     /**
